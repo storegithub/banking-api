@@ -1,0 +1,15 @@
+import { BaseController } from "src/generics/controller/base.controller";
+import { AddressDto } from "src/models/Address.dto";
+import { Inject } from "@nestjs/common";
+import { IAddressService } from "../customerModule/address.service";
+
+export class AddressController extends BaseController<AddressDto>
+{
+
+    constructor(@Inject('IAddressService') addressService: IAddressService)
+    {
+        super(addressService);
+    }
+
+    
+}

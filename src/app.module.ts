@@ -11,6 +11,9 @@ import { UserModule } from './modules/userModule/user.module';
 import { CustomerModule } from './modules/customerModule/customer.module';
 import { BranchModule } from './modules/branchModule/branch.module';
 import { BankModule } from './modules/bankModule/brank.module';
+import { AccountModule } from './modules/accountModule/account.module';
+import { AddressModule } from './modules/addressModule/address.module';
+import { DictionaryModule } from './modules/dictionaryModule/dictionary.module';
 
 @Module({
   imports: [ 
@@ -20,13 +23,16 @@ import { BankModule } from './modules/bankModule/brank.module';
     UserModule,
     CustomerModule,
     BranchModule,
-    BankModule
+    BankModule,
+    AccountModule,
+    AddressModule,
+    DictionaryModule
   ],  
   controllers: [
-    AppController
+    
   ],
   providers: [
-    AppService
+    
   ],
 })
 export class AppModule {}

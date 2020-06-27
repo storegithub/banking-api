@@ -44,10 +44,10 @@ export class BankService extends BaseService<Bank, BankDto> implements IBankServ
 
     public onBeforeInsert(dto: BankDto): Bank
     {
-        const user: Bank = this.mapper.map(dto, Bank, BankDto);
-        user.id = 0;
+        const value: Bank = this.mapper.map(dto, Bank, BankDto);
+        value.id = 0;
 
-        return user;
+        return value;
     }
 
     public onAfterInsert(entity: Bank): BankDto

@@ -44,10 +44,10 @@ export class BranchService extends BaseService<Branch, BranchDto> implements IBr
 
     public onBeforeInsert(dto: BranchDto): Branch
     {
-        const user: Branch = this.mapper.map(dto, Branch, BranchDto);
-        user.id = 0;
+        const value: Branch = this.mapper.map(dto, Branch, BranchDto);
+        value.id = 0;
 
-        return user;
+        return value;
     }
 
     public onAfterInsert(entity: Branch): BranchDto

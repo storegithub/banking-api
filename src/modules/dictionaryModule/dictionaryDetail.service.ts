@@ -44,10 +44,10 @@ export class DictionaryDetailService extends BaseService<DictionaryDetail, Dicti
 
     public onBeforeInsert(dto: DictionaryDetailDto): DictionaryDetail
     {
-        const user: DictionaryDetail = this.mapper.map(dto, DictionaryDetail, DictionaryDetailDto);
-        user.id = 0;
+        const value: DictionaryDetail = this.mapper.map(dto, DictionaryDetail, DictionaryDetailDto);
+        value.id = 0;
 
-        return user;
+        return value;
     }
 
     public onAfterInsert(entity: DictionaryDetail): DictionaryDetailDto

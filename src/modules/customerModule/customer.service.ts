@@ -44,10 +44,10 @@ export class CustomerService extends BaseService<Customer, CustomerDto> implemen
 
     public onBeforeInsert(dto: CustomerDto): Customer
     {
-        const user: Customer = this.mapper.map(dto, Customer, CustomerDto);
-        user.id = 0;
+        const value: Customer = this.mapper.map(dto, Customer, CustomerDto);
+        value.id = 0;
 
-        return user;
+        return value;
     }
 
     public onAfterInsert(entity: Customer): CustomerDto
