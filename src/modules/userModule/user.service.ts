@@ -3,7 +3,7 @@ import { User } from "src/entities/user.entity";
 import { UserDto } from "src/models/user.dto";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IService } from "src/generics/service/service.interface";
+import { IService } from "src/generics/service/base.service";
 import { AutoMapper, InjectMapper } from "nestjsx-automapper";
 import { Injectable, BadRequestException } from "@nestjs/common";
 import { isNullOrUndefined } from "util";

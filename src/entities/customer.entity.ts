@@ -44,4 +44,7 @@ export class Customer implements IId
     
     @Column({ name: 'Details' })
     public details: string;
+
+    @Column({ name: "UserId" })
+    public userId: number;
 }

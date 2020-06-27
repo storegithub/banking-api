@@ -15,9 +15,9 @@ export class Address implements IId
 
     
     @Column({ name: 'ZipCode' })
-    public zipCode: number;
+    public zipCode: string;
 
     
     @Column({ name: 'Details' })
-    public details: number;
+    public details: string;
 }

@@ -1,5 +1,5 @@
 import { BaseService } from "../service/base.service";
-import { IService } from "../service/service.interface";
+import { IService } from "../service/base.service";
 import { Get, Param } from "@nestjs/common";
 
 export class BaseController<T extends object>

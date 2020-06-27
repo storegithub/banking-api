@@ -15,6 +15,7 @@ export class AuthController {
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     public index(): string
     {
         return "ok";

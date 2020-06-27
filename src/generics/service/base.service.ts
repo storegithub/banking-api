@@ -4,9 +4,18 @@ import { OperationResult } from 'src/models/operation.result.dto';
 import { IId } from '../id.interface';
 import { EventService } from './event.service';
 import { AutoMapper } from 'nestjsx-automapper';
-import { IService } from './service.interface';
 
+export interface IService<T extends object>
+{
+    getById(id: number): Promise<T>;
 
+    getAll(): Promise<Array<T>>;
+
+    filter(filter: object): Promise<Array<T>>;
+    insert(dto: T): Promise<OperationResult<T>>;
+    update(dto: T): Promise<OperationResult<T>>;
+    delete(dto: T): Promise<OperationResult<T>>;
+}
 
 export class BaseService<Tentity extends object & IId, Tdto extends object> extends EventService<Tentity, Tdto> implements IService<Tdto> {
 

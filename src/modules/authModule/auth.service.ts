@@ -51,7 +51,8 @@ export class AuthService implements IAuthService {
         if (!result.success)
             throw new Error();
 
-        return await this.getLiteInfo(result.data);
+        
+        return new ApiResponse(true, "Contul a fost inregistrat cu success!");
     }
 
     private async getLiteInfo(user: UserDto): Promise<UserLiteDto>
