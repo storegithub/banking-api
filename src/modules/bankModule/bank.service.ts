@@ -4,8 +4,7 @@ import { Bank } from "src/entities/bank.entity";
 import { BankDto } from "src/models/bank.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { InjectMapper } from "nestjsx-automapper/dist/decorators";
-import { AutoMapper } from "nestjsx-automapper";
+import { AutoMapper, InjectMapper } from "nestjsx-automapper";
 import { Injectable } from "@nestjs/common";
 
 export interface IBankService extends IService<BankDto>

@@ -2,8 +2,7 @@ import { Module } from "@nestjs/common";
 import { CustomerService } from "./Customer.service";
 import { CustomerController } from "./Customer.controller";
 import { Customer } from "src/entities/Customer.entity";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { AddressService } from "./address.service";
+import { TypeOrmModule } from "@nestjs/typeorm"; 
 import { AddressModule } from "../addressModule/address.module";
 
 

@@ -33,12 +33,12 @@ export class DictionaryService extends BaseService<Dictionary, DictionaryDto> im
     
     public MapDto(entity: Dictionary): DictionaryDto
     {
-        return this.mapper.map(entity, DictionaryDto, Dictionary);
+        return this.mapper.map(entity, DictionaryDto);
     }
 
     public MapEntity(dto: DictionaryDto): Dictionary
     {
-        return this.mapper.map(dto, Dictionary, DictionaryDto);
+        return this.mapper.map(dto, Dictionary);
     }
 
     public MapDtos(entities: Array<Dictionary>): Array<DictionaryDto>

@@ -38,66 +38,33 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.typeId, mapFrom(s=> s.typeId))
       .forMember(d => d.currencyId, mapFrom(s=> s.currencyId))
       .forMember(d => d.amount, mapFrom(s=> s.amount))
-      .forMember(d => d.displayName, mapFrom(s=> s.displayName));
+      .forMember(d => d.displayName, mapFrom(s=> s.displayName)).reverseMap();
 
-    mapper.createMap(AccountDto, Account)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.customerId, mapFrom(s => s.customerId))
-      .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber))
-      .forMember(d => d.typeId, mapFrom(s=> s.typeId))
-      .forMember(d => d.currencyId, mapFrom(s=> s.currencyId))
-      .forMember(d => d.amount, mapFrom(s=> s.amount))
-      .forMember(d => d.displayName, mapFrom(s=> s.displayName));
 
     mapper.createMap(AccountType, AccountTypeDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(AccountTypeDto, AccountType)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));;
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(Address, AddressDto)
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.city, mapFrom(s => s.city))
       .forMember(d => d.zipCode, mapFrom(s => s.zipCode))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(AddressDto, Address)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.city, mapFrom(s => s.city))
-      .forMember(d => d.zipCode, mapFrom(s => s.zipCode))
-      .forMember(d => d.details, mapFrom(s => s.details));
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(Bank, BankDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(BankDto, Bank)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(Branch, BranchDto)
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.bankId, mapFrom(s => s.bankId))
       .forMember(d => d.addressId, mapFrom(s => s.addressId))
       .forMember(d => d.code, mapFrom(s => s.code))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(BranchDto, Branch)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.bankId, mapFrom(s => s.bankId))
-      .forMember(d => d.addressId, mapFrom(s => s.addressId))
-      .forMember(d => d.code, mapFrom(s => s.code))
-      .forMember(d => d.details, mapFrom(s => s.details));
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(BranchType, BranchTypeDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(BranchTypeDto, BranchType)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(Customer, CustomerDto)
       .forMember(d => d.id, mapFrom(s => s.id))
@@ -110,42 +77,18 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.phoneNo, mapFrom(s => s.phoneNo))
       .forMember(d => d.email, mapFrom(s => s.email))
       .forMember(d => d.details, mapFrom(s => s.details))
-      .forMember(d => d.userId, mapFrom(s => s.userId));
-
-    mapper.createMap(CustomerDto, Customer)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.addressId, mapFrom(s => s.addressId))
-      .forMember(d => d.branchId, mapFrom(s => s.branchId))
-      .forMember(d => d.gender, mapFrom(s => s.gender))
-      .forMember(d => d.name, mapFrom(s => s.name))
-      .forMember(d => d.surname, mapFrom(s => s.surname))
-      .forMember(d => d.createdOn, mapFrom(s => s.createdOn))
-      .forMember(d => d.phoneNo, mapFrom(s => s.phoneNo))
-      .forMember(d => d.email, mapFrom(s => s.email))
-      .forMember(d => d.details, mapFrom(s => s.details))
-      .forMember(d => d.userId, mapFrom(s => s.userId));
+      .forMember(d => d.userId, mapFrom(s => s.userId)).reverseMap(); 
 
     mapper.createMap(Dictionary, DictionaryDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.name, mapFrom(s => s.name));
-
-    mapper.createMap(DictionaryDto, Dictionary)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.name, mapFrom(s => s.name));
+      .forMember(d => d.name, mapFrom(s => s.name)).reverseMap(); 
 
     mapper.createMap(DictionaryDetail, DictionaryDetailDto)
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.dictionaryId, mapFrom(s => s.dictionaryId))
       .forMember(d => d.name, mapFrom(s => s.name))
       .forMember(d => d.value, mapFrom(s => s.value))
-      .forMember(d => d.active, mapFrom(s => s.active));
-
-    mapper.createMap(DictionaryDetailDto, DictionaryDetail)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.dictionaryId, mapFrom(s => s.dictionaryId))
-      .forMember(d => d.name, mapFrom(s => s.name))
-      .forMember(d => d.value, mapFrom(s => s.value))
-      .forMember(d => d.active, mapFrom(s => s.active));
+      .forMember(d => d.active, mapFrom(s => s.active)).reverseMap(); 
 
     mapper.createMap(Transaction, TransactionDto)
       .forMember(d => d.id, mapFrom(s => s.id))
@@ -154,24 +97,11 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.accountNumber, mapFrom(s => s.accountNumber))
       .forMember(d => d.transactionDate, mapFrom(s => s.transactionDate))
       .forMember(d => d.Amount, mapFrom(s => s.Amount))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(TransactionDto, Transaction)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.mercantId, mapFrom(s => s.mercantId))
-      .forMember(d => d.transactionTypeId, mapFrom(s => s.transactionTypeId))
-      .forMember(d => d.accountNumber, mapFrom(s => s.accountNumber))
-      .forMember(d => d.transactionDate, mapFrom(s => s.transactionDate))
-      .forMember(d => d.Amount, mapFrom(s => s.Amount))
-      .forMember(d => d.details, mapFrom(s => s.details));
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(TransactionType, TransactionTypeDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
-
-    mapper.createMap(TransactionTypeDto, TransactionType)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.details, mapFrom(s => s.details));
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(UserDto, UserLiteDto)
       .forMember(d => d.id, mapFrom(s => s.id))
@@ -183,15 +113,6 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.password, mapFrom(s => s.password))
       .forMember(d => d.userName, mapFrom(s => s.userName))
       .forMember(d => d.active, mapFrom(s => s.active))
-      .forMember(d => d.email, mapFrom(s => s.email));
-      // .reverseMap();
-      // .forMember(d => d.toJson(), ignore());
-
-    mapper.createMap(UserDto, User)
-      .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.password, mapFrom(s => s.password))
-      .forMember(d => d.userName, mapFrom(s => s.userName))
-      .forMember(d => d.active, mapFrom(s => s.active))
-      .forMember(d => d.email, mapFrom(s => s.email));
+      .forMember(d => d.email, mapFrom(s => s.email)).reverseMap(); 
   }
 }

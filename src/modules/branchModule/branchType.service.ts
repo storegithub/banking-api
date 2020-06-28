@@ -1,6 +1,6 @@
 import { BaseService, IService } from "src/generics/service/base.service";
-import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { BranchTypeDto } from "src/models/branchtype.dto";
 import { BranchType } from "src/entities/branchtype.entity";

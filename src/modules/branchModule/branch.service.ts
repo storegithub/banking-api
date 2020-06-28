@@ -4,8 +4,7 @@ import { Branch } from "src/entities/branch.entity";
 import { BranchDto } from "src/models/branch.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { InjectMapper } from "nestjsx-automapper/dist/decorators";
-import { AutoMapper } from "nestjsx-automapper";
+import { AutoMapper, InjectMapper } from "nestjsx-automapper";
 import { Injectable } from "@nestjs/common";
 
 export interface IBranchService extends IService<BranchDto>
