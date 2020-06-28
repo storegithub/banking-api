@@ -5,7 +5,7 @@ import { BankController } from "./bank.controller";
 import { BankService } from "./Bank.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Bank])],
+    imports: [TypeOrmModule.forFeature([ Bank ])],
     controllers:[
         BankController
     ],

@@ -35,9 +35,9 @@ export class AboutService implements IAboutService
         let infos: DictionaryDetailDto[] = await this.dictionaryDetailService.getByDictionary(this.aboutKey);
 
         const about: AboutDto = {
-            email: infos.find(item => item.name == this.aboutEmail).name,
-            phone: infos.find(item => item.name == this.aboutPhone).name,
-            details: infos.find(item => item.name == this.aboutDetails).name
+            email: infos.find(item => item.name == this.aboutEmail).value,
+            phone: infos.find(item => item.name == this.aboutPhone).value,
+            details: infos.find(item => item.name == this.aboutDetails).value
         };
 
         return about;
