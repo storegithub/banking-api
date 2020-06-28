@@ -4,12 +4,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Address } from "src/entities/address.entity";
 import { Repository } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
+import { Injectable } from "@nestjs/common";
 
 export interface IAddressService extends IService<AddressDto>
 {
 
 }
 
+@Injectable()
 export class AddressService extends BaseService<Address, AddressDto> implements IAddressService
 {
     constructor(@InjectRepository(Address) repository: Repository<Address>, @InjectMapper() mapper: AutoMapper)

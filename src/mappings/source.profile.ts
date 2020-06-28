@@ -34,12 +34,20 @@ export class SourceProfile extends ProfileBase  {
     mapper.createMap(Account, AccountDto)
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.customerId, mapFrom(s => s.customerId))
-      .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber));
+      .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber))
+      .forMember(d => d.typeId, mapFrom(s=> s.typeId))
+      .forMember(d => d.currencyId, mapFrom(s=> s.currencyId))
+      .forMember(d => d.amount, mapFrom(s=> s.amount))
+      .forMember(d => d.displayName, mapFrom(s=> s.displayName));
 
     mapper.createMap(AccountDto, Account)
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.customerId, mapFrom(s => s.customerId))
-      .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber));
+      .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber))
+      .forMember(d => d.typeId, mapFrom(s=> s.typeId))
+      .forMember(d => d.currencyId, mapFrom(s=> s.currencyId))
+      .forMember(d => d.amount, mapFrom(s=> s.amount))
+      .forMember(d => d.displayName, mapFrom(s=> s.displayName));
 
     mapper.createMap(AccountType, AccountTypeDto)
       .forMember(d => d.id, mapFrom(s => s.id))

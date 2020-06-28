@@ -4,20 +4,29 @@ import { Dictionary } from "src/entities/Dictionary.entity";
 import { DictionaryDto } from "src/models/Dictionary.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { InjectMapper } from "nestjsx-automapper/dist/decorators";
-import { AutoMapper } from "nestjsx-automapper";
+import { AutoMapper, InjectMapper } from "nestjsx-automapper"; 
+import { Injectable } from "@nestjs/common";
 
 export interface IDictionaryService extends IService<DictionaryDto>
 {
-
+    getByName(name: string): Promise<DictionaryDto>;
 }
 
-
+@Injectable()
 export class DictionaryService extends BaseService<Dictionary, DictionaryDto> implements IDictionaryService
 {
     constructor(@InjectRepository(Dictionary) repository: Repository<Dictionary>, @InjectMapper() mapper: AutoMapper)
     {
         super(repository, mapper);
+    }
+
+    public async getByName(name: string): Promise<DictionaryDto> {
+        let dictionary: Dictionary = await this.repository.findOne({ name: name });
+        if(dictionary == null)
+            return null;
+        
+            let a = this.MapEntity(new DictionaryDto());
+        return this.MapDto(dictionary);
     }
 
 

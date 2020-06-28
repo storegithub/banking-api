@@ -4,12 +4,14 @@ import { Account } from "src/entities/account.entity";
 import { Repository } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from "@nestjs/common";
 
 export interface IAccountService extends IService<AccountDto>
 {
 
 }
 
+@Injectable()
 export class AccountService extends BaseService<Account, AccountDto> implements IAccountService
 {
     constructor(@InjectRepository(Account) repository: Repository<Account>, @InjectMapper() mapper: AutoMapper)

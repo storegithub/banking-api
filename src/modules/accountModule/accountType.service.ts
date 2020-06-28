@@ -4,6 +4,7 @@ import { AccountTypeDto } from "src/models/accounttype.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
+import { Injectable } from "@nestjs/common";
 
 
 export interface IAccountTypeService extends IService<AccountTypeDto>
@@ -11,6 +12,7 @@ export interface IAccountTypeService extends IService<AccountTypeDto>
 
 }
 
+@Injectable()
 export class AccountTypeService extends BaseService<AccountType, AccountTypeDto> implements IAccountTypeService
 {
     constructor(@InjectRepository(AccountType) repository: Repository<AccountType>, @InjectMapper() mapper: AutoMapper)

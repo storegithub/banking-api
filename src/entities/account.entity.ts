@@ -14,4 +14,16 @@ export class Account implements IId
 
     @Column({ name: 'AccountNumber' })
     public accountNumber: string;
+
+    @Column({ name: 'TypeId' })
+    public typeId: number;
+
+    @Column({ name: 'CurrencyId' })
+    public currencyId: number;
+
+    @Column({ name: 'Amount' })
+    public amount: number;
+
+    @Column({ name: 'DisplayName' })
+    public displayName: string;
 }

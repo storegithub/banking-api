@@ -1,9 +1,10 @@
 import { BaseController } from "src/generics/controller/base.controller";
 import { AccountDto } from "src/models/account.dto";
-import { Inject } from "@nestjs/common";
+import { Inject, Controller } from "@nestjs/common";
 import { IAccountTypeService } from "./accountType.service";
 import { IAccountService } from "./account.service";
 
+@Controller('account')
 export class AccountController extends BaseController<AccountDto>
 {
 

@@ -6,13 +6,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { InjectMapper } from "nestjsx-automapper/dist/decorators";
 import { AutoMapper } from "nestjsx-automapper";
+import { Injectable } from "@nestjs/common";
 
 export interface IBankService extends IService<BankDto>
 {
 
 }
 
-
+@Injectable()
 export class BankService extends BaseService<Bank, BankDto> implements IBankService
 {
     constructor(@InjectRepository(Bank) repository: Repository<Bank>, @InjectMapper() mapper: AutoMapper)

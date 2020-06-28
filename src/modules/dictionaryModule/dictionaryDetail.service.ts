@@ -4,22 +4,37 @@ import { DictionaryDetail } from "src/entities/dictionaryDetail.entity";
 import { DictionaryDetailDto } from "src/models/dictionaryDetail.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { InjectMapper } from "nestjsx-automapper/dist/decorators";
-import { AutoMapper } from "nestjsx-automapper";
+import { AutoMapper, InjectMapper } from "nestjsx-automapper"; 
+import { IDictionaryService } from "./dictionary.service";
+import { DictionaryDto } from "src/models/dictionary.dto";
+import { Inject, Injectable } from "@nestjs/common";
 
 export interface IDictionaryDetailService extends IService<DictionaryDetailDto>
 {
-
+    getByDictionary(dictionaryName: string) : Promise<DictionaryDetailDto[]>;
 }
 
-
+@Injectable()
 export class DictionaryDetailService extends BaseService<DictionaryDetail, DictionaryDetailDto> implements IDictionaryDetailService
 {
-    constructor(@InjectRepository(DictionaryDetail) repository: Repository<DictionaryDetail>, @InjectMapper() mapper: AutoMapper)
+    private readonly dictionaryService: IDictionaryService;
+
+    constructor(@InjectRepository(DictionaryDetail) repository: Repository<DictionaryDetail>, 
+        @InjectMapper() mapper: AutoMapper,
+        @Inject('IDictionaryService') dictionaryService: IDictionaryService)
     {
         super(repository, mapper);
+        this.dictionaryService = dictionaryService;
     }
 
+    public async getByDictionary(dictionaryName: string) : Promise<DictionaryDetailDto[]>
+    {
+        let dictionary: DictionaryDto = await this.dictionaryService.getByName(dictionaryName);
+
+        let details: DictionaryDetail[] = await this.repository.find({ dictionaryId: dictionary.id, active: true });
+
+        return this.MapDtos(details);
+    }
 
 
     public MapDto(entity: DictionaryDetail): DictionaryDetailDto

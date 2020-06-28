@@ -8,17 +8,15 @@ import { AddressModule } from "../addressModule/address.module";
 
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Customer]), TypeOrmModule.forFeature([AddressModule])],
+    imports: [TypeOrmModule.forFeature([Customer]), AddressModule],
     controllers:[
         CustomerController
     ],
     providers: [
-        { provide: "ICustomerService", useClass: CustomerService },
-        { provide: "IAddressService", useClass: AddressService }
+        { provide: "ICustomerService", useClass: CustomerService }
     ],
     exports: [
-        { provide: "ICustomerService", useClass: CustomerService },
-        { provide: "IAddressService", useClass: AddressService }
+        { provide: "ICustomerService", useClass: CustomerService }
     ]
 })
 export class CustomerModule{}

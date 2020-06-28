@@ -1,9 +1,10 @@
 import { BaseController } from "src/generics/controller/base.controller";
 import { DictionaryDto } from "src/models/Dictionary.dto";
-import { Inject } from "@nestjs/common";
+import { Inject, Controller } from "@nestjs/common";
 import { IDictionaryService } from "./dictionary.service";
 import { IDictionaryDetailService } from "./dictionaryDetail.service";
 
+@Controller('dictionary')
 export class DictionaryController extends BaseController<DictionaryDto>
 {
 

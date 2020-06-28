@@ -6,13 +6,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { InjectMapper } from "nestjsx-automapper/dist/decorators";
 import { AutoMapper } from "nestjsx-automapper";
+import { Injectable } from "@nestjs/common";
 
 export interface IBranchService extends IService<BranchDto>
 {
 
 }
 
-
+@Injectable()
 export class BranchService extends BaseService<Branch, BranchDto> implements IBranchService
 {
     constructor(@InjectRepository(Branch) repository: Repository<Branch>, @InjectMapper() mapper: AutoMapper)

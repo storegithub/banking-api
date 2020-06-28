@@ -4,12 +4,14 @@ import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionDto } from "src/models/transaction.dto";
 import { Transaction } from "src/entities/transaction.entity";
+import { Injectable } from "@nestjs/common";
 
 export interface ITransactionService extends IService<TransactionDto>
 {
 
 }
 
+@Injectable()
 export class TransactionService extends BaseService<Transaction, TransactionDto> implements ITransactionService
 {
     constructor(@InjectRepository(Transaction) repository: Repository<Transaction>, @InjectMapper() mapper: AutoMapper)

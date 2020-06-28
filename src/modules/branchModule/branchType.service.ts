@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { BranchTypeDto } from "src/models/branchtype.dto";
 import { BranchType } from "src/entities/branchtype.entity";
+import { Injectable } from "@nestjs/common";
 
 
 export interface IBranchTypeService extends IService<BranchTypeDto>
@@ -11,6 +12,7 @@ export interface IBranchTypeService extends IService<BranchTypeDto>
 
 }
 
+@Injectable()
 export class BranchTypeService extends BaseService<BranchType, BranchTypeDto> implements IBranchTypeService
 {
     constructor(@InjectRepository(BranchType) repository: Repository<BranchType>, @InjectMapper() mapper: AutoMapper)

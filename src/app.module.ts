@@ -10,10 +10,11 @@ import './mappings/source.profile';
 import { UserModule } from './modules/userModule/user.module';
 import { CustomerModule } from './modules/customerModule/customer.module';
 import { BranchModule } from './modules/branchModule/branch.module';
-import { BankModule } from './modules/bankModule/brank.module';
+import { BankModule } from './modules/bankModule/bank.module';
 import { AccountModule } from './modules/accountModule/account.module';
 import { AddressModule } from './modules/addressModule/address.module';
 import { DictionaryModule } from './modules/dictionaryModule/dictionary.module';
+import { AboutModule } from './modules/aboutModule/about.module';
 
 @Module({
   imports: [ 
@@ -21,6 +22,7 @@ import { DictionaryModule } from './modules/dictionaryModule/dictionary.module';
     AutomapperModule.withMapper(),
     AuthModule,
     UserModule,
+    AboutModule,
     CustomerModule,
     BranchModule,
     BankModule,
