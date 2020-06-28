@@ -5,9 +5,10 @@ import { AccountType } from "src/entities/accountType.entity";
 import { AccountController } from "./account.controller";
 import { AccountService } from "./account.service";
 import { AccountTypeService } from "./accountType.service";
+import { DictionaryModule } from "../dictionaryModule/dictionary.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Account, AccountType])],
+    imports: [TypeOrmModule.forFeature([Account, AccountType]), DictionaryModule],
     controllers:[
         AccountController
     ],

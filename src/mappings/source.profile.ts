@@ -25,6 +25,8 @@ import { TransactionDto } from 'src/models/transaction.dto';
 import { TransactionTypeDto } from 'src/models/transactiontype.dto';
 import { Transaction } from 'src/entities/transaction.entity';
 import { format } from 'path';
+import { Contact } from 'src/entities/contact.entity';
+import { ContactDto } from 'src/models/contact.dto';
 
 @Profile()
 export class SourceProfile extends ProfileBase  {
@@ -35,8 +37,9 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.customerId, mapFrom(s => s.customerId))
       .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber))
-      .forMember(d => d.typeId, mapFrom(s=> s.typeId))
-      .forMember(d => d.currencyId, mapFrom(s=> s.currencyId))
+      .forMember(d => d.iban, mapFrom(s=> s.iban))
+      .forMember(d => d.type, mapFrom(s=> s.accountType.code))
+      .forMember(d => d.currency, mapFrom(s=> s.currency.name))
       .forMember(d => d.amount, mapFrom(s=> s.amount))
       .forMember(d => d.displayName, mapFrom(s=> s.displayName)).reverseMap();
 
@@ -65,6 +68,14 @@ export class SourceProfile extends ProfileBase  {
     mapper.createMap(BranchType, BranchTypeDto)
       .forMember(d => d.id, mapFrom(s => s.id))
       .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
+
+    mapper.createMap(Contact, ContactDto)
+      .forMember(d => d.id, mapFrom(s => s.id))
+      .forMember(d => d.firstName, mapFrom(s => s.firstName))
+      .forMember(d => d.lastName, mapFrom(s => s.lastName))
+      .forMember(d => d.email, mapFrom(s => s.email))
+      .forMember(d => d.phoneNumber, mapFrom(s => s.phoneNumber))
+      .forMember(d => d.message, mapFrom(s => s.message)).reverseMap(); 
 
     mapper.createMap(Customer, CustomerDto)
       .forMember(d => d.id, mapFrom(s => s.id))

@@ -8,10 +8,12 @@ import { AutoMapper, InjectMapper } from "nestjsx-automapper";
 import { IDictionaryService } from "./dictionary.service";
 import { DictionaryDto } from "src/models/dictionary.dto";
 import { Inject, Injectable } from "@nestjs/common";
+import { SelectItem } from "src/models/selectitem";
 
 export interface IDictionaryDetailService extends IService<DictionaryDetailDto>
 {
     getByDictionary(dictionaryName: string) : Promise<DictionaryDetailDto[]>;
+    getAsDropDown(dictionaryName: string): Promise<SelectItem<string, string>[]>;
 }
 
 @Injectable()
@@ -25,6 +27,15 @@ export class DictionaryDetailService extends BaseService<DictionaryDetail, Dicti
     {
         super(repository, mapper);
         this.dictionaryService = dictionaryService;
+    }
+    public async getAsDropDown(dictionaryName: string): Promise<SelectItem<string, string>[]> {
+        const currencies: DictionaryDetailDto[] = await this.getByDictionary(dictionaryName);
+        return currencies.map(item => {
+            let data: SelectItem<string, string> = new SelectItem<string, string>();
+            data.value = item.name;
+            data.text = item.value;
+            return data;
+        }); 
     }
 
     public async getByDictionary(dictionaryName: string) : Promise<DictionaryDetailDto[]>

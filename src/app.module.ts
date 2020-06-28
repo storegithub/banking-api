@@ -16,6 +16,7 @@ import { AddressModule } from './modules/addressModule/address.module';
 import { DictionaryModule } from './modules/dictionaryModule/dictionary.module';
 import { AboutModule } from './modules/aboutModule/about.module';
 import { TransactionModule } from './modules/transactionModule/transaction.module';
+import { ContactModule } from './modules/contactModule/contact.module';
 
 @Module({
   imports: [ 
@@ -27,6 +28,7 @@ import { TransactionModule } from './modules/transactionModule/transaction.modul
     AuthModule,
     BankModule,
     BranchModule,
+    ContactModule,
     CustomerModule,
     DictionaryModule,
     TransactionModule,

@@ -33,6 +33,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
+    "guid-typescript": "^1.0.9",
     "mysql": "^2.18.1",
     "nest-automapper": "^2.1.4",
     "nestjsx-automapper": "^3.0.6",

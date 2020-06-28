@@ -12,6 +12,7 @@ import { DictionaryDetail } from './entities/dictionaryDetail.entity';
 import { TransactionType } from './entities/transactionType.entity';
 import { Customer } from './entities/customer.entity';
 import { Transaction } from './entities/transaction.entity';
+import { Contact } from './entities/contact.entity';
 
 @Injectable()
 export class dbConnectService implements TypeOrmOptionsFactory {
@@ -24,7 +25,7 @@ export class dbConnectService implements TypeOrmOptionsFactory {
             username: 'root',
             password: null,
             database: process.env.DATABASE_NAME,
-            synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
+            synchronize: true,//Boolean(process.env.DATABASE_SYNCHRONIZE),
             dropSchema: false,
             logging: Boolean(process.env.DATABASE_LOGGING),
             entities: [
@@ -39,7 +40,8 @@ export class dbConnectService implements TypeOrmOptionsFactory {
                 Dictionary,
                 DictionaryDetail,
                 Transaction,
-                TransactionType
+                TransactionType,
+                Contact
             ]
         };
     }

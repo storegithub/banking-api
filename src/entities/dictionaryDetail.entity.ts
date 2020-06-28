@@ -1,6 +1,7 @@
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { IId } from "src/generics/id.interface";
+import { Account } from "./account.entity";
  
 @Entity()
 export class DictionaryDetail implements IId
@@ -24,4 +25,7 @@ export class DictionaryDetail implements IId
     
     @Column({ name: 'Active' })
     public active: boolean;
+
+    @OneToMany(type => Account, a => a.currency)
+    public accounts: Account[];
 }

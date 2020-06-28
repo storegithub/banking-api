@@ -5,11 +5,12 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { Injectable } from "@nestjs/common";
+import { SelectItem } from "src/models/selectitem";
 
 
 export interface IAccountTypeService extends IService<AccountTypeDto>
 {
-
+    getAsDropDown(): Promise<SelectItem<string, string>[]>;
 }
 
 @Injectable()
@@ -20,8 +21,19 @@ export class AccountTypeService extends BaseService<AccountType, AccountTypeDto>
         super(repository, mapper);
     }
 
-
-    
+    public async getAsDropDown(): Promise<SelectItem<string, string>[]>
+    {
+        const data: AccountType[] = await this.repository.find();
+         
+        return data.map(item => 
+        {
+            let data: SelectItem<string, string> = new SelectItem<string, string>();
+            data.value = item.code;
+            data.text = item.name;
+            return data;
+        });
+    }
+ 
     public MapDto(entity: AccountType): AccountTypeDto
     {
         return this.mapper.map(entity, AccountTypeDto, AccountType);

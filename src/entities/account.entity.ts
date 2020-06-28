@@ -1,6 +1,8 @@
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Column, PrimaryColumn, OneToOne, OneToMany, ManyToOne } from "typeorm";
 import { IId } from "src/generics/id.interface";
+import { AccountType } from "./accountType.entity";
+import { DictionaryDetail } from "./dictionaryDetail.entity";
 
 @Entity()
 export class Account implements IId
@@ -14,16 +16,19 @@ export class Account implements IId
 
     @Column({ name: 'AccountNumber' })
     public accountNumber: string;
-
-    @Column({ name: 'TypeId' })
-    public typeId: number;
-
-    @Column({ name: 'CurrencyId' })
-    public currencyId: number;
+    
+    @Column({ name: 'iban' })
+    public iban: string;
 
     @Column({ name: 'Amount' })
     public amount: number;
 
     @Column({ name: 'DisplayName' })
     public displayName: string;
+
+    @ManyToOne(type => AccountType, item => item.accounts)
+    public accountType: AccountType;
+
+    @ManyToOne(type => DictionaryDetail, item => item.accounts)
+    public currency: DictionaryDetail;
 }

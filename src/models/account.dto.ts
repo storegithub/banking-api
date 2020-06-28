@@ -1,10 +1,16 @@
+import { SelectItem } from "./selectitem";
+
 export class AccountDto
 {
     public id?: number;
     public customerId?: number;
     public accountNumber?: string;
-    public typeId: number;
-    public currencyId: number;
+    public type: string;
+    public currency: string;
     public amount: number;
     public displayName: string;
+    public iban: string;
+
+    public currencies: SelectItem<string, string>[] = [];
+    public accountTypes: SelectItem<string, string>[] = [];
 }

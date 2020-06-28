@@ -4,19 +4,70 @@ import { Account } from "src/entities/account.entity";
 import { Repository } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
+import { PortfolioDto } from "src/models/portfolio.dto";
+import { IDictionaryDetailService } from "../dictionaryModule/dictionaryDetail.service";
+import { IAccountTypeService } from "./accountType.service"; 
+import { Guid } from "guid-typescript"; 
 
 export interface IAccountService extends IService<AccountDto>
 {
-
+    get(customerId: number): Promise<PortfolioDto>;
+    getNewAccount(): Promise<AccountDto>;
 }
 
 @Injectable()
 export class AccountService extends BaseService<Account, AccountDto> implements IAccountService
 {
-    constructor(@InjectRepository(Account) repository: Repository<Account>, @InjectMapper() mapper: AutoMapper)
+    private static eco: string = "eco";
+    private static current: string = "current";
+    private static depo: string = "depo";
+    private static due: string = "due";
+
+    private readonly dictionaryDetailService: IDictionaryDetailService;
+    private readonly accountTypeService: IAccountTypeService;
+
+    constructor(@InjectRepository(Account) repository: Repository<Account>, 
+        @InjectMapper() mapper: AutoMapper,
+        @Inject('IDictionaryDetailService') dictionaryDetailService: IDictionaryDetailService,
+        @Inject('IAccountTypeService') accountTypeService: IAccountTypeService)
     {
         super(repository, mapper);
+        this.dictionaryDetailService = dictionaryDetailService;
+        this.accountTypeService = accountTypeService;
+    }
+    public async get(customerId: number): Promise<PortfolioDto> {
+        const portfolio: PortfolioDto = new PortfolioDto();
+    
+        const items = await this.repository.find({ relations: ['accountType', 'currency'], where: { customerId: customerId } });
+        const customerAccounts: AccountDto[] = await this.mapper.mapArrayAsync(items, AccountDto, Account);
+
+        portfolio.economies = customerAccounts.filter(item => item.type == AccountService.eco);
+        portfolio.currentAccounts = customerAccounts.filter(item => item.type == AccountService.current);
+        portfolio.deposits = customerAccounts.filter(item => item.type == AccountService.depo);
+        portfolio.dues = customerAccounts.filter(item => item.type == AccountService.due);
+
+        portfolio.amount = items.map(item => item.amount).reduce((previous, current) => {
+            return previous + current;
+        }, 0);
+ 
+        // portfolio.currencies =  await this.dictionaryDetailService.getAsDropDown('currency');
+
+        // portfolio.accountTypes =  await this.accountTypeService.getAsDropDown();
+        
+        return portfolio;
+    }
+
+    public async getNewAccount(): Promise<AccountDto>
+    {
+        const item: AccountDto = new AccountDto();
+
+        item.currencies =  await this.dictionaryDetailService.getAsDropDown('currency');
+        item.accountTypes =  await this.accountTypeService.getAsDropDown();
+
+        item.accountNumber = Guid.create().toString(); 
+
+        return item;
     }
 
 
