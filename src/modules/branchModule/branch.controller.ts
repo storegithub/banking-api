@@ -1,8 +1,8 @@
 import { BaseController } from "src/generics/controller/base.controller";
-import { BranchDto } from "src/models/Branch.dto";
 import { Inject, Controller } from "@nestjs/common";
-import { IBranchService } from "./Branch.service";
+import { BranchDto } from "src/models/branch.dto";
 import { IBranchTypeService } from "./branchType.service";
+import { IBranchService } from "./Branch.service";
 
 @Controller('branch')
 export class BranchController extends BaseController<BranchDto>
@@ -16,6 +16,4 @@ export class BranchController extends BaseController<BranchDto>
         super(branchService);
         this.branchTypeService = branchTypeService;
     }
-
-    
 }

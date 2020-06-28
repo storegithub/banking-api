@@ -1,11 +1,10 @@
-
-import { IService, BaseService} from "../../generics/service/base.service";
-import { Bank } from "src/entities/bank.entity";
-import { BankDto } from "src/models/bank.dto";
-import { InjectRepository } from "@nestjs/typeorm";
+import { IService, BaseService } from "src/generics/service/base.service";
 import { Repository } from "typeorm";
-import { AutoMapper, InjectMapper } from "nestjsx-automapper";
+import { InjectMapper, AutoMapper } from "nestjsx-automapper";
+import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
+import { BankDto } from "src/models/bank.dto";
+import { Bank } from "src/entities/bank.entity";
 
 export interface IBankService extends IService<BankDto>
 {

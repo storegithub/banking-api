@@ -1,11 +1,10 @@
 import { Module } from "@nestjs/common";
-import { BranchService } from "./Branch.service";
-import { BranchController } from "./Branch.controller";
-import { Branch } from "src/entities/Branch.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { Branch } from "src/entities/branch.entity";
 import { BranchType } from "src/entities/branchtype.entity";
+import { BranchController } from "./branch.controller";
+import { BranchService } from "./Branch.service";
 import { BranchTypeService } from "./branchType.service";
-
 
 @Module({
     imports: [TypeOrmModule.forFeature([Branch, BranchType])],

@@ -1,11 +1,10 @@
-
-import { IService, BaseService} from "../../generics/service/base.service";
-import { Branch } from "src/entities/branch.entity";
-import { BranchDto } from "src/models/branch.dto";
-import { InjectRepository } from "@nestjs/typeorm";
+import { IService, BaseService } from "src/generics/service/base.service";
 import { Repository } from "typeorm";
-import { AutoMapper, InjectMapper } from "nestjsx-automapper";
+import { InjectMapper, AutoMapper } from "nestjsx-automapper";
+import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
+import { BranchDto } from "src/models/branch.dto";
+import { Branch } from "src/entities/branch.entity";
 
 export interface IBranchService extends IService<BranchDto>
 {
@@ -21,7 +20,6 @@ export class BranchService extends BaseService<Branch, BranchDto> implements IBr
     }
 
 
-    
     public MapDto(entity: Branch): BranchDto
     {
         return this.mapper.map(entity, BranchDto, Branch);

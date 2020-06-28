@@ -1,11 +1,10 @@
-
-import { IService, BaseService} from "../../generics/service/base.service";
-import { Customer } from "src/entities/customer.entity";
-import { CustomerDto } from "src/models/customer.dto";
-import { Repository } from "typeorm";
+import { IService, BaseService } from "src/generics/service/base.service";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AutoMapper, InjectMapper } from "nestjsx-automapper";
+import { Repository } from "typeorm";
+import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { Injectable } from "@nestjs/common";
+import { CustomerDto } from "src/models/customer.dto";
+import { Customer } from "src/entities/customer.entity";
 
 export interface ICustomerService extends IService<CustomerDto>
 {
