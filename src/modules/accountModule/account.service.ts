@@ -9,6 +9,7 @@ import { PortfolioDto } from "src/models/portfolio.dto";
 import { IDictionaryDetailService } from "../dictionaryModule/dictionaryDetail.service";
 import { IAccountTypeService } from "./accountType.service"; 
 import { Guid } from "guid-typescript"; 
+import { IbanService } from "./iban";
 
 export interface IAccountService extends IService<AccountDto>
 {
@@ -26,15 +27,18 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
 
     private readonly dictionaryDetailService: IDictionaryDetailService;
     private readonly accountTypeService: IAccountTypeService;
+    private readonly ibanService: IbanService;
 
     constructor(@InjectRepository(Account) repository: Repository<Account>, 
         @InjectMapper() mapper: AutoMapper,
         @Inject('IDictionaryDetailService') dictionaryDetailService: IDictionaryDetailService,
-        @Inject('IAccountTypeService') accountTypeService: IAccountTypeService)
+        @Inject('IAccountTypeService') accountTypeService: IAccountTypeService,
+        ibanService: IbanService)
     {
         super(repository, mapper);
         this.dictionaryDetailService = dictionaryDetailService;
         this.accountTypeService = accountTypeService;
+        this.ibanService = ibanService;
     }
     public async get(customerId: number): Promise<PortfolioDto> {
         const portfolio: PortfolioDto = new PortfolioDto();
@@ -65,7 +69,8 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
         item.currencies =  await this.dictionaryDetailService.getAsDropDown('currency');
         item.accountTypes =  await this.accountTypeService.getAsDropDown();
 
-        item.accountNumber = Guid.create().toString(); 
+        item.accountNumber = this.ibanService.newAccountNumber();
+        item.iban = this.ibanService.newIban(item.accountNumber);
 
         return item;
     }

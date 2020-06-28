@@ -6,6 +6,7 @@ import { AccountController } from "./account.controller";
 import { AccountService } from "./account.service";
 import { AccountTypeService } from "./accountType.service";
 import { DictionaryModule } from "../dictionaryModule/dictionary.module";
+import { IbanService } from "./iban";
 
 @Module({
     imports: [TypeOrmModule.forFeature([Account, AccountType]), DictionaryModule],
@@ -13,10 +14,12 @@ import { DictionaryModule } from "../dictionaryModule/dictionary.module";
         AccountController
     ],
     providers: [
+        IbanService,
         { provide: "IAccountService", useClass: AccountService }, 
         { provide: "IAccountTypeService", useClass: AccountTypeService }
     ],
     exports: [
+        IbanService,
         { provide: "IAccountService", useClass: AccountService }, 
         { provide: "IAccountTypeService", useClass: AccountTypeService }
     ]
