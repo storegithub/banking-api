@@ -39,22 +39,35 @@ export class DictionaryDetailService extends BaseService<DictionaryDetail, Dicti
 
     public MapDto(entity: DictionaryDetail): DictionaryDetailDto
     {
-        return this.mapper.map(entity, DictionaryDetailDto, DictionaryDetail);
+        const item: DictionaryDetailDto = new DictionaryDetailDto();
+        item.id = entity.id;
+        item.dictionaryId = entity.id;
+        item.active = entity.active;
+        item.name = entity.name;
+        item.value = entity.value;
+        return item;
     }
 
     public MapEntity(dto: DictionaryDetailDto): DictionaryDetail
     {
-        return this.mapper.map(dto, DictionaryDetail, DictionaryDetailDto);
+        const item: DictionaryDetail = new DictionaryDetail();
+        item.id = dto.id;
+        item.dictionaryId = dto.id;
+        item.active = dto.active;
+        item.name = dto.name;
+        item.value = dto.value;
+
+        return item;
     }
 
     public MapDtos(entities: Array<DictionaryDetail>): Array<DictionaryDetailDto>
     {
-        return this.mapper.mapArray(entities, DictionaryDetailDto, DictionaryDetail);
+        return entities.map(item => this.MapDto(item));
     }
 
     public MapEntities(dtos: Array<DictionaryDetailDto>): Array<DictionaryDetail>
     {
-        return this.mapper.mapArray(dtos, DictionaryDetail, DictionaryDetailDto);
+        return dtos.map(item => this.MapEntity(item));
     }
 
     public onBeforeInsert(dto: DictionaryDetailDto): DictionaryDetail

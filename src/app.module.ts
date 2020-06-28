@@ -25,7 +25,7 @@ import { TransactionModule } from './modules/transactionModule/transaction.modul
     AccountModule,
     AddressModule,
     AuthModule,
-    // BankModule,
+    BankModule,
     // BranchModule,
     // CustomerModule,
     DictionaryModule,
