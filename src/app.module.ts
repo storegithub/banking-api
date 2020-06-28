@@ -15,20 +15,22 @@ import { AccountModule } from './modules/accountModule/account.module';
 import { AddressModule } from './modules/addressModule/address.module';
 import { DictionaryModule } from './modules/dictionaryModule/dictionary.module';
 import { AboutModule } from './modules/aboutModule/about.module';
+import { TransactionModule } from './modules/transactionModule/transaction.module';
 
 @Module({
   imports: [ 
     TypeOrmModule.forRootAsync({ useClass: dbConnectService }), 
     AutomapperModule.withMapper(),
-    AuthModule,
-    UserModule,
     AboutModule,
-    CustomerModule,
-    BranchModule,
-    BankModule,
     AccountModule,
     AddressModule,
-    DictionaryModule
+    AuthModule,
+    BankModule,
+    BranchModule,
+    CustomerModule,
+    DictionaryModule,
+    TransactionModule,
+    UserModule
   ],  
   controllers: [
     
