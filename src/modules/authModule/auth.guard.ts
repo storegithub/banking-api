@@ -1,9 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { SessionService } from '../shared/session.service';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') 
 {
+    constructor(private readonly session: SessionService)
+    {
+        super();
+    }
 
     handleRequest(error, isAuthenticated, apiInfo) 
     {
@@ -11,11 +16,8 @@ export class JwtAuthGuard extends AuthGuard('jwt')
         if (!isAuthenticated)
             throw new UnauthorizedException();
 
-        console.log(error);
-        console.log(isAuthenticated);
-        console.log(apiInfo);
+        this.session.setUser(isAuthenticated);
         
-
         return isAuthenticated;
     }
 }

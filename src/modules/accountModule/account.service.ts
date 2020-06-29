@@ -51,14 +51,7 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
         portfolio.deposits = customerAccounts.filter(item => item.type == AccountService.depo);
         portfolio.dues = customerAccounts.filter(item => item.type == AccountService.due);
 
-        portfolio.amount = items.map(item => item.amount).reduce((previous, current) => {
-            return previous + current;
-        }, 0);
- 
-        // portfolio.currencies =  await this.dictionaryDetailService.getAsDropDown('currency');
-
-        // portfolio.accountTypes =  await this.accountTypeService.getAsDropDown();
-        
+        portfolio.amount = items.map(item => item.amount).reduce((previous, current) => previous + current, 0);
         return portfolio;
     }
 

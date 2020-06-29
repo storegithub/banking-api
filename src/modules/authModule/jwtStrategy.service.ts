@@ -1,6 +1,6 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { jwtConstants } from '../../constants';
 import { Payload } from 'src/models/credentials.dto';
 import { IUserService } from '../userModule/user.service';
@@ -14,21 +14,25 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   constructor(@Inject('IUserService') userService: IUserService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Token'),
-      ignoreExpiration: false,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // ignoreExpiration: false,
       secretOrKey: jwtConstants.secret,
     });
 
     this.userService = userService;
   }
 
-  async validate(payload: Payload): Promise<UserDto> {
-    const { userName } = payload;
+  async validate(payload: any, done: VerifiedCallback) {
+    const { userName } = payload.user;
 
     const appUser: UserDto = await this.userService.findActiveOne(userName) ;
     if (isNullOrUndefined(appUser))
-      throw new UnauthorizedException();
+    return done(
+      new HttpException('Unauthorized access', HttpStatus.UNAUTHORIZED),
+      false,
+    );
+  
 
-    return appUser;
+    return done(null, appUser, payload.iat);
   }
 }
