@@ -2,7 +2,9 @@ import { MailerService } from "@nestjs-modules/mailer";
 import { UserDto } from "src/models/user.dto";
 import { TemplateHelper } from "src/helper/templatehelper";
 import { SelectItem } from "src/models/selectitem";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class NotificationService
 {
     constructor(private readonly mailerService: MailerService)
