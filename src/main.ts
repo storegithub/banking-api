@@ -16,6 +16,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('swagger')
     .build();
+  app.enableCors();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
   // app.setGlobalPrefix(Constants.GLOBAL_PREFIX);

@@ -53,4 +53,18 @@ export class AddressService extends BaseService<Address, AddressDto> implements 
     {
         return this.MapDto(entity);
     }
+
+    public onBeforeUpdate(dto: AddressDto): Address
+    {
+        const value: Address = new Address();
+        value.city = dto.city;
+        value.id = dto.id;
+        value.details = dto.details;
+        value.zipCode = dto.zipCode; 
+        return value;
+    } 
+    public onAfterUpdate(entity: Address): AddressDto
+    {
+        return this.MapDto(entity);
+    }
 }

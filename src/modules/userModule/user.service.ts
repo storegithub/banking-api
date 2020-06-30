@@ -1,12 +1,14 @@
 import { BaseService } from "src/generics/service/base.service";
 import { User } from "src/entities/user.entity";
 import { UserDto } from "src/models/user.dto";
-import { Repository } from "typeorm";
+import { Repository, InsertResult } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IService } from "src/generics/service/base.service";
 import { AutoMapper, InjectMapper } from "nestjsx-automapper";
-import { Injectable, BadRequestException } from "@nestjs/common";
+import { Injectable, BadRequestException, Inject } from "@nestjs/common";
 import { isNullOrUndefined } from "util";
+import { ICustomerService } from "../customerModule/Customer.service";
+import { OperationResult } from "src/models/operation.result.dto";
 
 export interface IUserService extends IService<UserDto> 
 {
@@ -17,9 +19,12 @@ export interface IUserService extends IService<UserDto>
 @Injectable()
 export class UserService extends BaseService<User, UserDto> implements IUserService
 {
-    constructor(@InjectRepository(User) repository: Repository<User>, @InjectMapper() mapper: AutoMapper)
+    private readonly customerService: ICustomerService;
+    constructor(@InjectRepository(User) repository: Repository<User>, @InjectMapper() mapper: AutoMapper, 
+        @Inject("ICustomerService") customerService: ICustomerService)
     {
         super(repository, mapper);
+        this.customerService=customerService;
     }
 
     public async findOne(userName: string): Promise<UserDto>
@@ -72,7 +77,22 @@ export class UserService extends BaseService<User, UserDto> implements IUserServ
         return user;
     }
 
+    public onBeforeUpdate(dto: UserDto): User
+    {
+        const value: User = new User();
+        value.email = dto.email;
+        value.id = dto.id;
+        if(dto.password != null)
+            value.password = dto.password;
+        return value;
+    }
+
     public onAfterInsert(entity: User): UserDto
+    {
+        return this.MapDto(entity);
+    }
+
+    public onAfterUpdate(entity: User): UserDto
     {
         return this.MapDto(entity);
     }

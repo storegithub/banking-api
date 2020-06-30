@@ -1,5 +1,5 @@
 import { BaseController } from "src/generics/controller/base.controller";
-import { Inject, Controller } from "@nestjs/common"; 
+import { Inject, Controller, Post, Body } from "@nestjs/common"; 
 import { ContactDto } from "src/models/contact.dto";
 import { IContactService } from "./contact.service";
 import { ApiResponse } from "src/models/response.class";
@@ -14,8 +14,8 @@ export class ContactController
         this.service = service;
     }
 
-
-    public async post(item: ContactDto): Promise<ApiResponse>
+    @Post()
+    public async post(@Body() item: ContactDto): Promise<ApiResponse>
     {
         const response: OperationResult<ContactDto> = await this.service.insert(item);
 

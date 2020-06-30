@@ -60,8 +60,8 @@ export class SourceProfile extends ProfileBase  {
 
     mapper.createMap(Branch, BranchDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.bankId, mapFrom(s => s.bankId))
-      .forMember(d => d.addressId, mapFrom(s => s.addressId))
+      .forMember(d => d.bankId, mapFrom(s => s.bank.id))
+      .forMember(d => d.addressId, mapFrom(s => s.address.id))
       .forMember(d => d.code, mapFrom(s => s.code))
       .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
@@ -79,16 +79,15 @@ export class SourceProfile extends ProfileBase  {
 
     mapper.createMap(Customer, CustomerDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.addressId, mapFrom(s => s.addressId))
-      .forMember(d => d.branchId, mapFrom(s => s.branchId))
+      .forMember(d => d.addressId, mapFrom(s => s.address.id))
+      .forMember(d => d.branchId, mapFrom(s => s.branch.id))
       .forMember(d => d.gender, mapFrom(s => s.gender))
       .forMember(d => d.name, mapFrom(s => s.name))
       .forMember(d => d.surname, mapFrom(s => s.surname))
       .forMember(d => d.createdOn, mapFrom(s => s.createdOn))
       .forMember(d => d.phoneNo, mapFrom(s => s.phoneNo))
       .forMember(d => d.email, mapFrom(s => s.email))
-      .forMember(d => d.details, mapFrom(s => s.details))
-      .forMember(d => d.userId, mapFrom(s => s.userId)).reverseMap(); 
+      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(Dictionary, DictionaryDto)
       .forMember(d => d.id, mapFrom(s => s.id))

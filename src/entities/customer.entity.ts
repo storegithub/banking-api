@@ -1,6 +1,8 @@
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Column, PrimaryColumn, ManyToOne, OneToMany } from "typeorm";
 import { IId } from "src/generics/id.interface";
+import { Address } from "./address.entity";
+import { Branch } from "./branch.entity";
 
 @Entity()
 export class Customer implements IId
@@ -8,15 +10,6 @@ export class Customer implements IId
     @PrimaryColumn()
     @PrimaryGeneratedColumn({ name: 'Id'})
     public id: number;
-
-    
-    @Column({ name: 'AddressId' })
-    public addressId: number;
-
-    
-    @Column({ name: 'BranchId' })
-    public branchId: number;
-
     
     @Column({ name: 'Gender' })
     public gender: string;
@@ -28,6 +21,12 @@ export class Customer implements IId
     
     @Column({ name: 'Surname' })
     public surname: string;
+
+    @Column({ name: 'Series' })
+    public series: string;
+
+    @Column({ name: 'Number' })
+    public number: string;
 
     
     @Column({ name: 'CreatedOn' })
@@ -45,6 +44,9 @@ export class Customer implements IId
     @Column({ name: 'Details' })
     public details: string;
 
-    @Column({ name: "UserId" })
-    public userId: number;
+    @ManyToOne(type => Branch, item => item.customers)
+    public branch: Branch;
+
+    @ManyToOne(type => Address, item => item.customers)
+    public address: Address;
 }
