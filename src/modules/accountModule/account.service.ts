@@ -10,10 +10,11 @@ import { IDictionaryDetailService } from "../dictionaryModule/dictionaryDetail.s
 import { IAccountTypeService } from "./accountType.service"; 
 import { Guid } from "guid-typescript"; 
 import { IbanService } from "./iban";
+import { UserService, IUserService } from "../userModule/user.service";
 
 export interface IAccountService extends IService<AccountDto>
 {
-    get(customerId: number): Promise<PortfolioDto>;
+    get(userId: number): Promise<PortfolioDto>;
     getNewAccount(): Promise<AccountDto>;
 }
 
@@ -28,22 +29,26 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
     private readonly dictionaryDetailService: IDictionaryDetailService;
     private readonly accountTypeService: IAccountTypeService;
     private readonly ibanService: IbanService;
+    private readonly userService: IUserService;
 
     constructor(@InjectRepository(Account) repository: Repository<Account>, 
         @InjectMapper() mapper: AutoMapper,
         @Inject('IDictionaryDetailService') dictionaryDetailService: IDictionaryDetailService,
         @Inject('IAccountTypeService') accountTypeService: IAccountTypeService,
+        @Inject('IUserService') userService: IUserService,
         ibanService: IbanService)
     {
         super(repository, mapper);
         this.dictionaryDetailService = dictionaryDetailService;
         this.accountTypeService = accountTypeService;
         this.ibanService = ibanService;
+        this.userService=userService;
     }
-    public async get(customerId: number): Promise<PortfolioDto> {
+    public async get(userId: number): Promise<PortfolioDto> {
         const portfolio: PortfolioDto = new PortfolioDto();
     
-        const items = await this.repository.find({ relations: ['accountType', 'currency'], where: { customerId: customerId } });
+        const user = await this.userService.getById(userId);    
+        const items = await this.repository.find({ relations: ['accountType', 'currency'], where: { customerId: user.customerId } });
         const customerAccounts: AccountDto[] = await this.mapper.mapArrayAsync(items, AccountDto, Account);
 
         portfolio.economies = customerAccounts.filter(item => item.type == AccountService.eco);

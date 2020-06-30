@@ -7,16 +7,20 @@ import { AccountService } from "./account.service";
 import { AccountTypeService } from "./accountType.service";
 import { DictionaryModule } from "../dictionaryModule/dictionary.module";
 import { IbanService } from "./iban";
+import { UserModule } from "../userModule/user.module";
+import { AuthModule } from "../authModule/auth.module";
+import { PassportModule } from "@nestjs/passport";
+
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Account, AccountType]), DictionaryModule],
+    imports: [TypeOrmModule.forFeature([Account, AccountType]), DictionaryModule, UserModule, AuthModule, PassportModule],
     controllers:[
         AccountController
     ],
     providers: [
         IbanService,
         { provide: "IAccountService", useClass: AccountService }, 
-        { provide: "IAccountTypeService", useClass: AccountTypeService }
+        { provide: "IAccountTypeService", useClass: AccountTypeService },
     ],
     exports: [
         IbanService,
