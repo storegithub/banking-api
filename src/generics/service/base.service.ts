@@ -85,7 +85,7 @@ export class BaseService<Tentity extends object & IId, Tdto extends object> exte
 
             const result: InsertResult = await this.repository.insert(entity);
 
-            entity.id = result.raw.id;
+            entity.id = result.raw.insertedId;
             
             response.data = this.onAfterInsert(entity);
             response.success = true;

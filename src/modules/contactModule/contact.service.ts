@@ -43,7 +43,12 @@ export class ContactService extends BaseService<Contact, ContactDto> implements 
 
     public onBeforeInsert(dto: ContactDto): Contact
     {
-        const value: Contact = this.mapper.map(dto, Contact, ContactDto);
+        const value: Contact = new Contact();
+        value.email = dto.email;
+        value.message = dto.message;
+        value.phoneNumber = dto.phoneNumber;
+        value.firstName = dto.firstName;
+        value.lastName = dto.lastName;
         value.id = 0;
 
         return value;
