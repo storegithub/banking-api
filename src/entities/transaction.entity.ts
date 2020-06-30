@@ -1,6 +1,8 @@
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Column, PrimaryColumn, ManyToOne } from "typeorm";
 import { IId } from "src/generics/id.interface";
+import { TransactionType } from "./transactionType.entity";
+import { Account } from "./account.entity";
  
 @Entity()
 export class Transaction implements IId
@@ -10,13 +12,8 @@ export class Transaction implements IId
     public id: number;
 
     
-    @Column({ name: 'MercantId' })
-    public mercantId: number;
-
-    
-    @Column({ name: 'TransactionTypeId' })
-    public transactionTypeId: number;
-
+    @Column({ name: 'Mercant' })
+    public mercant: string;
     
     @Column({ name: 'AccountNumber' })
     public accountNumber: string;
@@ -31,5 +28,12 @@ export class Transaction implements IId
 
     
     @Column({ name: 'Details' })
-    public details: Date;
+    public details: string;
+
+
+    @ManyToOne(type => Account, item => item.transactions)
+    public fromAccount: Account;
+
+    @ManyToOne(type => TransactionType, item => item.transactions)
+    public transactionType: TransactionType;
 }

@@ -1,24 +1,68 @@
 import { IService, BaseService } from "src/generics/service/base.service";
-import { Repository } from "typeorm";
+import { Repository, InsertResult } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionDto } from "src/models/transaction.dto";
 import { Transaction } from "src/entities/transaction.entity";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
+import { ITransactionTypeService } from "./transactionType.service";
+import { response } from "express";
+import { IAccountService } from "../accountModule/account.service";
+import { Account } from "src/entities/account.entity";
 
 export interface ITransactionService extends IService<TransactionDto>
 {
-
+    addTransaction(item: TransactionDto): Promise<TransactionDto>;
 }
 
 @Injectable()
 export class TransactionService extends BaseService<Transaction, TransactionDto> implements ITransactionService
 {
-    constructor(@InjectRepository(Transaction) repository: Repository<Transaction>, @InjectMapper() mapper: AutoMapper)
+    private readonly transactionTypeService: ITransactionTypeService;
+    private readonly accountService: IAccountService;
+
+    constructor(@InjectRepository(Transaction) repository: Repository<Transaction>, 
+        @InjectMapper() mapper: AutoMapper,
+        @Inject('ITransactionTypeService') transactionTypeService: ITransactionTypeService,
+        @Inject('IAccountService') accountService: IAccountService)
     {
         super(repository, mapper);
+        this.transactionTypeService = transactionTypeService;
+        this.accountService = accountService;
     }
 
+    public async addTransaction(item: TransactionDto): Promise<TransactionDto>
+    {
+        try
+        {
+            const account: Account = await this.accountService.getEntityById(item.fromAccountId);
+            if(account.amount < item.Amount)
+                throw new Error();
+
+            const newTrasaction: Transaction = new Transaction();
+            newTrasaction.id = 0;
+            newTrasaction.transactionType = await this.transactionTypeService.getEntityById(item.transactionTypeId);
+            newTrasaction.fromAccount = account;
+            newTrasaction.Amount = item.Amount;
+            newTrasaction.accountNumber = item.accountNumber;
+            newTrasaction.details = item.details;
+            newTrasaction.mercant = item.mercant;
+            newTrasaction.transactionDate = new Date();
+             
+            const result: InsertResult = await this.repository.insert(newTrasaction);
+
+            const updateAccount: Account = await this.accountService.getEntityById(item.fromAccountId);
+            updateAccount.amount -= newTrasaction.Amount;
+            
+            await this.accountService.updateEntity(updateAccount);
+
+            return this.MapDto(newTrasaction);
+        }
+        catch(err)
+        {
+            return null;
+        }
+    }
 
     
     public MapDto(entity: Transaction): TransactionDto

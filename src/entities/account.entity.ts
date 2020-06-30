@@ -3,6 +3,7 @@ import { PrimaryGeneratedColumn, Column, PrimaryColumn, OneToOne, OneToMany, Man
 import { IId } from "src/generics/id.interface";
 import { AccountType } from "./accountType.entity";
 import { DictionaryDetail } from "./dictionaryDetail.entity";
+import { Transaction } from "./transaction.entity";
 
 @Entity()
 export class Account implements IId
@@ -25,6 +26,11 @@ export class Account implements IId
 
     @Column({ name: 'DisplayName' })
     public displayName: string;
+
+
+    @OneToMany(() => Transaction, item => item.fromAccount)
+    public transactions: Transaction[];
+
 
     @ManyToOne(type => AccountType, item => item.accounts)
     public accountType: AccountType;

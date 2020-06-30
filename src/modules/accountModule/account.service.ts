@@ -18,6 +18,8 @@ export interface IAccountService extends IService<AccountDto>
 {
     get(userId: number): Promise<PortfolioDto>;
     getNewAccount(): Promise<AccountDto>;
+    getEntityById(id: number): Promise<Account>;
+    updateEntity(entity: Account): Promise<any> ;
 }
 
 @Injectable()
@@ -46,6 +48,15 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
         this.ibanService = ibanService;
         this.userService=userService;
     }
+    
+    async updateEntity(entity: Account): Promise<any> 
+    {
+        await this.repository.update(entity.id , entity);
+    }
+
+    async getEntityById(id: number): Promise<Account> {
+        return await this.repository.findOne({ where: { id: id } });
+    }
     public async get(userId: number): Promise<PortfolioDto> {
         const portfolio: PortfolioDto = new PortfolioDto();
     
@@ -53,10 +64,10 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
         const items = await this.repository.find({ relations: ['accountType', 'currency'], where: { customerId: user.customerId } });
         const customerAccounts: AccountDto[] = await this.mapper.mapArrayAsync(items, AccountDto, Account);
 
-        portfolio.economies = customerAccounts.filter(item => item.type == AccountService.eco);
-        portfolio.currentAccounts = customerAccounts.filter(item => item.type == AccountService.current);
-        portfolio.deposits = customerAccounts.filter(item => item.type == AccountService.depo);
-        portfolio.dues = customerAccounts.filter(item => item.type == AccountService.due);
+        portfolio.economies = customerAccounts.filter(item => item.accountType == AccountService.eco);
+        portfolio.currentAccounts = customerAccounts.filter(item => item.accountType == AccountService.current);
+        portfolio.deposits = customerAccounts.filter(item => item.accountType == AccountService.depo);
+        portfolio.dues = customerAccounts.filter(item => item.accountType == AccountService.due);
 
         portfolio.amount = items.map(item => item.amount).reduce((previous, current) => previous + current, 0);
         return portfolio;
@@ -80,23 +91,25 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
         let response: OperationResult<AccountDto> = new OperationResult<AccountDto>();
         try
         {
-            const value: Account =new Account();
-            value.id=0;
-            value.accountNumber=dto.accountNumber;
-            value.amount=dto.amount;
-            value.customerId=dto.customerId;
-            value.displayName=dto.displayName;
-            value.iban=dto.iban;
+            const { customerId } = await this.userService.getById(dto.userId);
 
-            value.accountType = await this.accountTypeService.getByCode(dto.accountTypes)
+            const value: Account =new Account();
+            value.id = 0;
+            value.accountNumber = dto.accountNumber;
+            value.amount = dto.amount;
+            value.customerId = customerId;
+            value.displayName = dto.displayName;
+            value.iban = dto.iban;
+
+            value.accountType = await this.accountTypeService.getByCode(dto.accountType)
             value.currency=await this.dictionaryDetailService.getByName(dto.currency);
             
 
             const result: InsertResult = await this.repository.insert(value);
 
-            value.id = result.raw.insertedId;
+            value.id = result.raw.insertedId; 
             
-            response.success = true;
+            response.data = new AccountDto();
             response.data.accountNumber=dto.accountNumber;
             response.data.accountTypes=dto.accountTypes;
             response.data.amount=dto.amount;
@@ -107,7 +120,9 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
             response.data.displayName=dto.displayName;
             response.data.iban=dto.iban;
             response.data.id=response.data.id;
-            response.data.type=dto.type;
+            response.data.accountType=dto.accountType;
+
+            response.success = true;
         }
         catch(error)
         {

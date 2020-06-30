@@ -9,7 +9,7 @@ import { Injectable } from "@nestjs/common";
 
 export interface ITransactionTypeService extends IService<TransactionTypeDto>
 {
-
+    getEntityById(id: number);
 }
 
 @Injectable()
@@ -19,6 +19,11 @@ export class TransactionTypeService extends BaseService<TransactionType, Transac
     {
         super(repository, mapper);
     }
+    async getEntityById(id: number): Promise<TransactionType> 
+    {
+        return await this.repository.findOne({ where: { id: id } });
+    }
+
 
 
     
