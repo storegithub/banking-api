@@ -4,4 +4,6 @@ export class EmailLogDto
     public guid: string;
     public code: string;
     public createdOn: Date;
+    public action: string;
+    public email: string;
 }

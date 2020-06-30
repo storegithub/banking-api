@@ -16,6 +16,12 @@ export class EmailLog implements IId
     @Column({ name: 'Code' })
     public code: string;
 
+    @Column({ name: 'Action' })
+    public action: string;
+
+    @Column({ name: 'Email' })
+    public email: string;
+
     @Column({ name: 'CreatedOn' })
     public createdOn: Date;
 }
