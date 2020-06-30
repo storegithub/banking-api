@@ -39,7 +39,8 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber))
       .forMember(d => d.iban, mapFrom(s=> s.iban))
       .forMember(d => d.type, mapFrom(s=> s.accountType.code))
-      .forMember(d => d.currency, mapFrom(s=> s.currency.name))
+      .forMember(d => d.currency, mapFrom(s=> s.currency.value))
+      // .forMember(d => d.currencyValue, mapFrom(s=> s.currency.name))
       .forMember(d => d.amount, mapFrom(s=> s.amount))
       .forMember(d => d.displayName, mapFrom(s=> s.displayName)).reverseMap();
 
@@ -123,6 +124,7 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.password, mapFrom(s => s.password))
       .forMember(d => d.userName, mapFrom(s => s.userName))
       .forMember(d => d.active, mapFrom(s => s.active))
+      .forMember(d => d.customerId, mapFrom(s => s.customerId))
       .forMember(d => d.email, mapFrom(s => s.email)).reverseMap(); 
   }
 }

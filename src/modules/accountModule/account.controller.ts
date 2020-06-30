@@ -1,6 +1,6 @@
 import { BaseController } from "src/generics/controller/base.controller";
 import { AccountDto } from "src/models/account.dto";
-import { Inject, Controller, Get, Param, UseGuards } from "@nestjs/common";
+import { Inject, Controller, Get, Param, UseGuards, Post, Body } from "@nestjs/common";
 import { IAccountTypeService } from "./accountType.service";
 import { IAccountService } from "./account.service";
 import { PortfolioDto } from "src/models/portfolio.dto";
@@ -34,6 +34,11 @@ export class AccountController extends BaseController<AccountDto>
     public async newAccount(): Promise<AccountDto>
     {
         return await this.accountService.getNewAccount();
+    }
+
+    @Post('newAccount')
+    public async addAccount(@Body() item: AccountDto){
+        return await this.accountService.insert(item);
     }
 
     // @Get('portfolio/:customerId')

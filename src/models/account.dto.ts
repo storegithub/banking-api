@@ -7,6 +7,7 @@ export class AccountDto
     public accountNumber?: string;
     public type: string;
     public currency: string;
+    public currencyValue: string;
     public amount: number;
     public displayName: string;
     public iban: string;

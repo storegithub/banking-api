@@ -11,6 +11,7 @@ import { SelectItem } from "src/models/selectitem";
 export interface IAccountTypeService extends IService<AccountTypeDto>
 {
     getAsDropDown(): Promise<SelectItem<string, string>[]>;
+    getByCode(string): Promise<AccountType>;
 }
 
 @Injectable()
@@ -32,6 +33,12 @@ export class AccountTypeService extends BaseService<AccountType, AccountTypeDto>
             data.text = item.name;
             return data;
         });
+    }
+
+    public async getByCode(code: string): Promise<AccountType>
+    {
+        return await this.repository.findOne( { where: { code: code} } );
+        
     }
  
     public MapDto(entity: AccountType): AccountTypeDto

@@ -5,9 +5,12 @@ import { Transaction } from "src/entities/transaction.entity";
 import { TransactionType } from "src/entities/transactionType.entity";
 import { TransactionService } from "./transaction.service";
 import { TransactionTypeService } from "./transactionType.service";
+import { AuthModule } from "../authModule/auth.module";
+import { PassportModule } from "@nestjs/passport";
+import { SharedModule } from "../shared/shared.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Transaction, TransactionType])],
+    imports: [TypeOrmModule.forFeature([Transaction, TransactionType]), AuthModule, PassportModule, SharedModule],
     controllers:[
         TransactionController
     ],

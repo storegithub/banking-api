@@ -5,9 +5,12 @@ import { BranchType } from "src/entities/branchtype.entity";
 import { BranchController } from "./branch.controller";
 import { BranchTypeService } from "./branchType.service";
 import { BranchService } from "./Branch.service";
+import { AuthModule } from "../authModule/auth.module";
+import { PassportModule } from "@nestjs/passport";
+import { SharedModule } from "../shared/shared.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Branch, BranchType])],
+    imports: [TypeOrmModule.forFeature([Branch, BranchType]), AuthModule, PassportModule, SharedModule],
     controllers:[
         BranchController
     ],

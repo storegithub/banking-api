@@ -14,6 +14,7 @@ export interface IDictionaryDetailService extends IService<DictionaryDetailDto>
 {
     getByDictionary(dictionaryName: string) : Promise<DictionaryDetailDto[]>;
     getAsDropDown(dictionaryName: string): Promise<SelectItem<string, string>[]>;
+    getByName(dictionaryName: string) : Promise<DictionaryDetail>;
 }
 
 @Injectable()
@@ -45,6 +46,11 @@ export class DictionaryDetailService extends BaseService<DictionaryDetail, Dicti
         let details: DictionaryDetail[] = await this.repository.find({ dictionaryId: dictionary.id, active: true });
 
         return this.MapDtos(details);
+    }
+
+    public async getByName(name: string) : Promise<DictionaryDetail>
+    {
+        return await this.repository.findOne({where: {name: name}});
     }
 
 

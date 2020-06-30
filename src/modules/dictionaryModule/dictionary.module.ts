@@ -5,10 +5,13 @@ import { DictionaryController } from "./dictionary.controller";
 import { Dictionary } from "src/entities/dictionary.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DictionaryDetail } from "src/entities/dictionaryDetail.entity";
+import { AuthModule } from "../authModule/auth.module";
+import { PassportModule } from "@nestjs/passport";
+import { SharedModule } from "../shared/shared.module";
 
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Dictionary, DictionaryDetail])],
+    imports: [TypeOrmModule.forFeature([Dictionary, DictionaryDetail]), PassportModule, SharedModule],
     controllers:[
         DictionaryController
     ],

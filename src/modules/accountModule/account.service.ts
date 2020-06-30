@@ -1,7 +1,7 @@
 import { IService, BaseService } from "src/generics/service/base.service";
 import { AccountDto } from "src/models/account.dto";
 import { Account } from "src/entities/account.entity";
-import { Repository } from "typeorm";
+import { Repository, InsertResult } from "typeorm";
 import { InjectMapper, AutoMapper } from "nestjsx-automapper";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable, Inject } from "@nestjs/common";
@@ -11,6 +11,8 @@ import { IAccountTypeService } from "./accountType.service";
 import { Guid } from "guid-typescript"; 
 import { IbanService } from "./iban";
 import { UserService, IUserService } from "../userModule/user.service";
+import { OperationResult } from "src/models/operation.result.dto";
+import { AccountType } from "src/entities/accountType.entity";
 
 export interface IAccountService extends IService<AccountDto>
 {
@@ -73,7 +75,46 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
         return item;
     }
 
+    public async insert(dto: AccountDto): Promise<OperationResult<AccountDto>>
+    {
+        let response: OperationResult<AccountDto> = new OperationResult<AccountDto>();
+        try
+        {
+            const value: Account =new Account();
+            value.id=0;
+            value.accountNumber=dto.accountNumber;
+            value.amount=dto.amount;
+            value.customerId=dto.customerId;
+            value.displayName=dto.displayName;
+            value.iban=dto.iban;
 
+            value.accountType = await this.accountTypeService.getByCode(dto.accountTypes)
+            value.currency=await this.dictionaryDetailService.getByName(dto.currency);
+            
+
+            const result: InsertResult = await this.repository.insert(value);
+
+            value.id = result.raw.insertedId;
+            
+            response.success = true;
+            response.data.accountNumber=dto.accountNumber;
+            response.data.accountTypes=dto.accountTypes;
+            response.data.amount=dto.amount;
+            response.data.currencies=dto.currencies;
+            response.data.currency=dto.currency;
+            response.data.currencyValue=dto.currencyValue;
+            response.data.customerId=dto.customerId;
+            response.data.displayName=dto.displayName;
+            response.data.iban=dto.iban;
+            response.data.id=response.data.id;
+            response.data.type=dto.type;
+        }
+        catch(error)
+        {
+            response.message = error.message;
+        }
+        return response;
+    }
     
     public MapDto(entity: Account): AccountDto
     {
@@ -97,8 +138,13 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
 
     public onBeforeInsert(dto: AccountDto): Account
     {
-        const value: Account = this.mapper.map(dto, Account, AccountDto);
-        value.id = 0;
+        const value: Account =new Account();
+        value.id=0;
+        value.accountNumber=dto.accountNumber;
+        value.amount=dto.amount;
+        value.customerId=dto.customerId;
+        value.displayName=dto.displayName;
+        value.iban=dto.iban;
 
         return value;
     }

@@ -3,9 +3,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Customer } from "src/entities/customer.entity";
 import { AddressModule } from "../addressModule/address.module";
 import { CustomerService } from "./Customer.service";
+import { AuthModule } from "../authModule/auth.module";
+import { PassportModule } from "@nestjs/passport";
+import { SharedModule } from "../shared/shared.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Customer]), AddressModule],
+    imports: [TypeOrmModule.forFeature([Customer]), AddressModule, PassportModule, SharedModule],
     controllers:[
     ],
     providers: [

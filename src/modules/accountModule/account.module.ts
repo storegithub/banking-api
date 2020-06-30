@@ -10,10 +10,11 @@ import { IbanService } from "./iban";
 import { UserModule } from "../userModule/user.module";
 import { AuthModule } from "../authModule/auth.module";
 import { PassportModule } from "@nestjs/passport";
+import { SharedModule } from "../shared/shared.module";
 
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Account, AccountType]), DictionaryModule, UserModule, AuthModule, PassportModule],
+    imports: [TypeOrmModule.forFeature([Account, AccountType]), DictionaryModule, UserModule, AuthModule, PassportModule, SharedModule],
     controllers:[
         AccountController
     ],
