@@ -3,6 +3,7 @@ import { PrimaryGeneratedColumn, Column, PrimaryColumn, ManyToOne } from "typeor
 import { IId } from "src/generics/id.interface";
 import { TransactionType } from "./transactionType.entity";
 import { Account } from "./account.entity";
+import { DictionaryDetail } from "./dictionaryDetail.entity";
  
 @Entity()
 export class Transaction implements IId
@@ -24,7 +25,7 @@ export class Transaction implements IId
 
     
     @Column({ name: 'Amount' })
-    public Amount: number;
+    public amount: number;
 
     
     @Column({ name: 'Details' })
@@ -36,4 +37,7 @@ export class Transaction implements IId
 
     @ManyToOne(type => TransactionType, item => item.transactions)
     public transactionType: TransactionType;
+
+    @ManyToOne(type => DictionaryDetail, item => item.transactions)
+    public currency: DictionaryDetail;
 }

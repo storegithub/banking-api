@@ -2,6 +2,7 @@ import { Entity } from "typeorm/decorator/entity/Entity";
 import { PrimaryGeneratedColumn, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { IId } from "src/generics/id.interface";
 import { Account } from "./account.entity";
+import { Transaction } from "./transaction.entity";
  
 @Entity()
 export class DictionaryDetail implements IId
@@ -28,4 +29,7 @@ export class DictionaryDetail implements IId
 
     @OneToMany(type => Account, a => a.currency)
     public accounts: Account[];
+
+    @OneToMany(type => Transaction, a => a.currency)
+    public transactions: Transaction[];
 }

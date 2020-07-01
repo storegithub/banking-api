@@ -38,8 +38,8 @@ export class SourceProfile extends ProfileBase  {
       .forMember(d => d.customerId, mapFrom(s => s.customerId))
       .forMember(d => d.accountNumber, mapFrom(s=> s.accountNumber))
       .forMember(d => d.iban, mapFrom(s=> s.iban))
-      .forMember(d => d.accountType, mapFrom(s=> s.accountType.code))
-      .forMember(d => d.currency, mapFrom(s=> s.currency.value))
+      .forMember(d => d.accountType, mapFrom(s=> s.accountType == null ? '' : s.accountType.code))
+      .forMember(d => d.currency, mapFrom(s=> s.currency == null ? '' : s.currency.value))
       // .forMember(d => d.currencyValue, mapFrom(s=> s.currency.name))
       .forMember(d => d.amount, mapFrom(s=> s.amount))
       .forMember(d => d.displayName, mapFrom(s=> s.displayName)).reverseMap();
@@ -103,15 +103,17 @@ export class SourceProfile extends ProfileBase  {
 
     mapper.createMap(Transaction, TransactionDto)
       .forMember(d => d.id, mapFrom(s => s.id))
-      .forMember(d => d.mercant, mapFrom(s => s.mercant))
-      .forMember(d => d.fromAccount, mapFrom(s => s.fromAccount.accountNumber))
-      .forMember(d => d.fromAccountId, mapFrom(s => s.fromAccount.id))
-      .forMember(d => d.transactionTypeId, mapFrom(s => s.transactionType.id))
-      .forMember(d => d.transactionType, mapFrom(s => s.transactionType.details))
+      .forMember(d => d.partner, mapFrom(s => s.mercant))
+      .forMember(d => d.fromAccount, mapFrom(s =>  s.fromAccount == null ? "" : s.fromAccount.displayName))
+      .forMember(d => d.fromAccountNumber, mapFrom(s =>  s.fromAccount == null ? "" : s.fromAccount.accountNumber))
+      .forMember(d => d.fromAccountId, mapFrom(s => s.fromAccount == null ? 0 : s.fromAccount.id))
+      .forMember(d => d.transactionTypeId, mapFrom(s => s.transactionType == null ? 0 : s.transactionType.id))
+      .forMember(d => d.transactionType, mapFrom(s => s.transactionType == null ? '' : s.transactionType.details))
       .forMember(d => d.accountNumber, mapFrom(s => s.accountNumber))
       .forMember(d => d.transactionDate, mapFrom(s => s.transactionDate))
-      .forMember(d => d.Amount, mapFrom(s => s.Amount))
-      .forMember(d => d.details, mapFrom(s => s.details)).reverseMap(); 
+      .forMember(d => d.amount, mapFrom(s => s.amount))
+      .forMember(d => d.currency, mapFrom(s => s.currency == null ? '' : s.currency.value))
+      .forMember(d => d.description, mapFrom(s => s.details)).reverseMap(); 
 
     mapper.createMap(TransactionType, TransactionTypeDto)
       .forMember(d => d.id, mapFrom(s => s.id))

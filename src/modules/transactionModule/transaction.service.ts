@@ -9,10 +9,15 @@ import { ITransactionTypeService } from "./transactionType.service";
 import { response } from "express";
 import { IAccountService } from "../accountModule/account.service";
 import { Account } from "src/entities/account.entity";
+import { AccountDto } from "src/models/account.dto";
+import { isNullOrUndefined } from "util";
+import { IDictionaryDetailService } from "../dictionaryModule/dictionaryDetail.service";
 
 export interface ITransactionService extends IService<TransactionDto>
 {
     addTransaction(item: TransactionDto): Promise<TransactionDto>;
+    newTransaction(accountId: number): Promise<TransactionDto>;
+    accountTransactions(accountId: number): Promise<TransactionDto[]>;
 }
 
 @Injectable()
@@ -35,24 +40,29 @@ export class TransactionService extends BaseService<Transaction, TransactionDto>
     {
         try
         {
-            const account: Account = await this.accountService.getEntityById(item.fromAccountId);
-            if(account.amount < item.Amount)
-                throw new Error();
+            const transactionAmount: number = Number(item.amount);
+            if(transactionAmount== null || transactionAmount < 1) throw new Error();
+            if(isNullOrUndefined(item.partner)) throw new Error();
+            if(isNullOrUndefined(item.accountNumber)) throw new Error();
 
+            const account: Account = await this.accountService.getEntityById(item.fromAccountId);
+            if(account.amount < transactionAmount) throw new Error("Sold indisponibil!");
+                 
             const newTrasaction: Transaction = new Transaction();
             newTrasaction.id = 0;
-            newTrasaction.transactionType = await this.transactionTypeService.getEntityById(item.transactionTypeId);
+            newTrasaction.transactionType = await this.transactionTypeService.getEntityByName(item.transactionType);
             newTrasaction.fromAccount = account;
-            newTrasaction.Amount = item.Amount;
+            newTrasaction.amount = transactionAmount;
             newTrasaction.accountNumber = item.accountNumber;
-            newTrasaction.details = item.details;
-            newTrasaction.mercant = item.mercant;
+            newTrasaction.details = item.description;
+            newTrasaction.mercant = item.partner;
+            newTrasaction.currency = account.currency;
             newTrasaction.transactionDate = new Date();
              
             const result: InsertResult = await this.repository.insert(newTrasaction);
 
             const updateAccount: Account = await this.accountService.getEntityById(item.fromAccountId);
-            updateAccount.amount -= newTrasaction.Amount;
+            updateAccount.amount -= transactionAmount;
             
             await this.accountService.updateEntity(updateAccount);
 
@@ -62,6 +72,25 @@ export class TransactionService extends BaseService<Transaction, TransactionDto>
         {
             return null;
         }
+    }
+
+    public async newTransaction(accountId: number): Promise<TransactionDto>
+    {
+        const account: AccountDto = await this.accountService.getById(accountId)
+        const transaction: TransactionDto = new TransactionDto();
+        transaction.fromAccountId = account.id;  
+        transaction.fromAccount = account.displayName;  
+        transaction.fromAccountNumber = account.accountNumber;  
+        transaction.currency = account.currency;
+        transaction.transactionType = "Debit";
+
+        return transaction;
+    }
+
+    public async accountTransactions(accountId: number): Promise<TransactionDto[]>
+    {
+        const items: Transaction[] = await this.repository.find({ where: { fromAccount: { id: accountId } }, relations: ['currency', 'transactionType'] });
+        return this.MapDtos(items);
     }
 
     

@@ -29,6 +29,13 @@ export class AccountController extends BaseController<AccountDto>
         return await this.accountService.get(userId);
     }
 
+    @Get('/find/:id')
+    @UseGuards(JwtAuthGuard)
+    public async getById(@Param('id') id: number): Promise<AccountDto>
+    {
+        return await this.accountService.getById(id);
+    }
+
     @Get('newAccount')
     @UseGuards(JwtAuthGuard)
     public async newAccount(): Promise<AccountDto>

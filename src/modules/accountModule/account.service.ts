@@ -55,7 +55,7 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
     }
 
     async getEntityById(id: number): Promise<Account> {
-        return await this.repository.findOne({ where: { id: id } });
+        return await this.repository.findOne({ where: { id: id }, relations: ['accountType', 'currency'] });
     }
     public async get(userId: number): Promise<PortfolioDto> {
         const portfolio: PortfolioDto = new PortfolioDto();
@@ -71,6 +71,22 @@ export class AccountService extends BaseService<Account, AccountDto> implements 
 
         portfolio.amount = items.map(item => item.amount).reduce((previous, current) => previous + current, 0);
         return portfolio;
+    }
+
+    public async getById(id: number): Promise<AccountDto>
+    {
+        let item: AccountDto = null;
+        try
+        {
+            const entity: Account = await this.repository.findOne({ where: { id: id }, relations: ['accountType', 'currency'] });
+
+            item = this.MapDto(entity);
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        return item;
     }
 
     public async getNewAccount(): Promise<AccountDto>

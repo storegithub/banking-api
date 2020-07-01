@@ -8,9 +8,11 @@ import { TransactionTypeService } from "./transactionType.service";
 import { AuthModule } from "../authModule/auth.module";
 import { PassportModule } from "@nestjs/passport";
 import { SharedModule } from "../shared/shared.module";
+import { AccountModule } from "../accountModule/account.module";
+import { DictionaryModule } from "../dictionaryModule/dictionary.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Transaction, TransactionType]), AuthModule, PassportModule, SharedModule],
+    imports: [TypeOrmModule.forFeature([Transaction, TransactionType]), AuthModule, PassportModule, SharedModule, AccountModule, DictionaryModule],
     controllers:[
         TransactionController
     ],
